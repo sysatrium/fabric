@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Host
+HOST="virt-web"
+STAT=$1
+
+if [ "$STAT" == "Reading" ]; then
+	curl http://${HOST}/stats/nginx 2> /dev/null | grep Reading | awk '{print $2}'
+fi
+
+if [ "$STAT" == "Writing" ]; then
+	curl http://${HOST}/stats/nginx 2> /dev/null | grep Writing | awk '{print $4}'
+fi
+
+if [ "$STAT" == "Waiting" ]; then
+	curl http://${HOST}/stats/nginx 2> /dev/null | grep Waiting | awk '{print $6}'
+fi
+
+if [ "$STAT" == "Accepts" ]; then
+	curl http://${HOST}/stats/nginx 2> /dev/null | grep -a1 server | sed -n 3p | awk '{print $1}'
+fi
+
+if [ "$STAT" == "Handled" ]; then
+        curl http://${HOST}/stats/nginx 2> /dev/null | grep -a1 server | sed -n 3p | awk '{print $2}'
+fi
+
+if [ "$STAT" == "Requests" ]; then
+        curl http://${HOST}/stats/nginx 2> /dev/null | grep -a1 server | sed -n 3p | awk '{print $3}'
+fi

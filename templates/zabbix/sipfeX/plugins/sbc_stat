@@ -1,0 +1,91 @@
+#!/bin/bash
+
+#-----------------------------------------------
+#	Author: Maxim Ivchenko
+#	Date: 28/082012
+#	Run: kamailio $1
+#	Description: get statistics kamailio
+#-------------------------------------------------
+
+function sercmd {
+	/usr/sbin/sercmd -s tcp:sbc1:2046 $1
+}
+
+function kamctl {
+	sudo /usr/sbin/kamctl stats
+}
+
+case $1 in
+	registerCount)
+		RCOUNT=`kamctl stats  | grep "usrloc:registered_users" | awk -F '=' '{print $2}' | sed "s/ //"`
+		echo $RCOUNT
+	;;
+
+	mysqlDriverErrors)
+		RCOUNT=`kamctl stats  | grep "mysql:driver_errors" | awk -F '=' '{print $2}' | sed "s/ //"`
+                echo $RCOUNT
+	;;
+        dropRequests)
+                RCOUNT=`kamctl stats  | grep "core:drop_requests" | awk -F '=' '{print $2}' | sed "s/ //"`
+                echo $RCOUNT
+        ;;
+        dropReplies)
+                RCOUNT=`kamctl stats  | grep "core:drop_replies" | awk -F '=' '{print $2}' | sed "s/ //"`
+                echo $RCOUNT
+        ;;
+	shmmemFree)
+		sercmd core.shmmem b | grep "^\sfree" | awk -F ':' '{print $2}' | sed "s/ //"
+	;;
+	shmmemUsed)
+		 sercmd core.shmmem b | grep "^\sused" | awk -F ':' '{print $2}' | sed "s/ //"
+	;;
+	tmCurrent)
+		sercmd tm.stats | grep "^\scurrent" | awk -F ':' '{print $2}' | sed "s/ //"
+	;;
+        tmWaiting)
+                sercmd tm.stats | grep "^\swaiting" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        tmTotal)
+                sercmd tm.stats | grep "^\stotal" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        tm6xx)
+                sercmd tm.stats | grep "^\s6xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        tm5xx)
+                sercmd tm.stats | grep "^\s5xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        tm4xx)
+                sercmd tm.stats | grep "^\s4xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        tm3xx)
+                sercmd tm.stats | grep "^\s3xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        tm2xx)
+                sercmd tm.stats | grep "^\s2xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl6xx) 
+                sercmd sl.stats | grep "^\s6xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl5xx) 
+                sercmd sl.stats | grep "^\s5xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl4xx) 
+                sercmd sl.stats | grep "^\s4xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl301) 
+                sercmd sl.stats | grep "^\s301" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl302) 
+                sercmd sl.stats | grep "^\s302" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl300)
+                sercmd sl.stats | grep "^\s300" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        sl2xx) 
+                sercmd sl.stats | grep "^\s2xx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+        slxxx) 
+                sercmd sl.stats | grep "^\sxxx" | awk -F ':' '{print $2}' | sed "s/ //"
+        ;;
+
+esac

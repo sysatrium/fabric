@@ -1,0 +1,2 @@
+{{ node1 }} IPaddr::{{ vip }}/{{ netmask }}/{{ interface }} {{ services }}
+{{ node1 }} IPaddr::{{ vip2 }}/{{ netmask2 }}/{{ interface2 }} {{ services2 }}

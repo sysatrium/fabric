@@ -1,0 +1,12 @@
+#!/bin/bash
+# Auth to MySQL
+auth_file="/etc/zabbix/plugins/mysql.conf"
+
+if [ -e ${auth_file} ]; then
+        . ${auth_file}
+else
+        echo "${auth_file} doen't exist"
+        exit 1
+fi
+
+mysqladmin -u${USERNAME} -p${PASSWORD} -h ${HOST} extended-status variables |sed 's/|//g'|grep Threads_connected |awk '{print $2}'

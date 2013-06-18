@@ -1,0 +1,11 @@
+#/bin/bash
+
+
+COUNT_PROC=`pgrep -f $1 | wc -l`
+
+if [ ${COUNT_PROC} -eq 0 ]; then
+	echo 0
+else
+	echo 1
+fi
+

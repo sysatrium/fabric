@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case $1 in
+        start)
+                route del default gw {{ gw2 }}
+                route add default gw {{ gw2 }}
+        ;;
+        stop)
+                route del default gw {{ gw2 }}
+        ;;
+esac

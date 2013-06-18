@@ -1,0 +1,8 @@
+INSTANCE_NAME="{{ app }}"
+CONNECTOR_PORT="{{ port }}"
+JMX_REMOTE_PORT="{{ port }}"
+{%- if cluster == '1' %}
+CLUSTER_MEMBERSHIP_ADDRESS="228.0.0.2"
+CLUSTER_MEMBERSHIP_PORT="45502"
+{%- endif %}
+JAVA_INSTANCE_OPTS="-XX:PermSize=256m -XX:MaxPermSize=256m -Xms1024m -Xmx1024m"
