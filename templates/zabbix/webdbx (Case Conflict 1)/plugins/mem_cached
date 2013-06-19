@@ -1,2 +1,0 @@
-#!/bin/bash
-cat /proc/meminfo | grep '^Cached' | awk '{print $2}'

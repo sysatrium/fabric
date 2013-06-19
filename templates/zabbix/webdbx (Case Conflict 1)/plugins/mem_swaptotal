@@ -1,2 +1,0 @@
-#!/bin/bash
-cat /proc/meminfo | grep SwapTotal | awk '{print $2}'
