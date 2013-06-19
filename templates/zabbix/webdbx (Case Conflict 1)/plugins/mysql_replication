@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#---------------------------------
+#	mysql_replication
+#	Author: Maxim Ivchenko
+#	Date: 03/08/2012
+#	Return: 1 - error, 0 - ok
+#	Version: 1.0
+#---------------------------------	
+# Editing: 
+
+# Auth to MySQL
+auth_file="/etc/zabbix/plugins/mysql.conf"
+
+if [ -e ${auth_file} ]; then
+	. ${auth_file}
+else
+	echo "${auth_file} doen't exist"
+	exit 1
+fi
+
+
+while read -r x; do
+
+Slave_IO_Running=`echo $x | awk  '{print $16}'`
+Slave_SQL_Running=`echo $x | awk  '{print $17}'`
+
+if [ "${Slave_IO_Running}" != "Yes" -o "${Slave_SQL_Running}" != "Yes" ]; then
+	echo 1
+else
+	echo 0
+fi
+done < <(mysql -u${USERNAME} -p${PASSWORD} -h ${HOST} -sse "show slave status;");
